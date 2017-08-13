@@ -1,11 +1,11 @@
-#DeleteGBFTweets
+# DeleteGBFTweets
 This is a little listener that you can run on your machine to automatically delete the tweets generated from the Granblue Fantasy Mobile Game.
 
 Just keep it running somewhere and it'll happily listen to your tweets and automatically delete ones with "#GranblueFantasy!" hashtag.
 
 In reality, this will work for any single hashtag you would like to delete. The target deletion hashtag can be changed in settings.py.
 
-#How to Use
+# How to Use
 Download or clone this repository to your machine.
 
 You can install dependencies by running
@@ -23,7 +23,7 @@ python app.py
 
 To exit the program, use the hotkey CTRL + C.
 
-#Setting Up keys
+# Setting Up Keys
 You will have to create an application that is bound to your twitter account.
 
 You can do so at the [Twitter Apps Page](https://apps.twitter.com).
