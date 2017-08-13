@@ -2,10 +2,16 @@
 
 import tweepy #tweepy api wrapper
 import settings #settings module
+import re
 
 class MyStreamListener(tweepy.StreamListener):
     def __init__(self, api):
         self.api = api
+
+    def regex_battle_id(self, word):
+        if (re.search(settings.regex, word)):
+            return True
+        return False
 
     """
         @param tweet: The tweet to parse
@@ -21,6 +27,10 @@ class MyStreamListener(tweepy.StreamListener):
         for word in split:
             if (word.startswith("#")):
                 hashtag_list.append(word)
+            else:
+                is_id = self.regex_battle_id(word)
+                if (is_id):
+                    hashtag_list.append(word)
         return hashtag_list
 
     """
@@ -35,7 +45,12 @@ class MyStreamListener(tweepy.StreamListener):
         for hashtag in hashtag_list:
             if (hashtag == settings.delete_hashtag):
                 return True
+            elif (self.regex_battle_id(hashtag)):
+                return True
         return False
+
+
+
 
     """
         @param status: The tweet that the listener found
@@ -47,12 +62,15 @@ class MyStreamListener(tweepy.StreamListener):
         if (status.text.startswith("RT") != True) and (status.text.startswith("@") != True):
             hashtag_list = self.find_hashtags(status)
             if (self.parse_hashtags(hashtag_list)):
+                print (status.text)
+                print ""
                 print "Deleting GBF related tweet..."
+                print ""
                 self.api.destroy_status(status.id)
 
     def on_delete(self, status_id, user_id):
         """Called when a delete notice arrives for a status"""
-        print (status.text)
+        pass
 
     def on_limit(self, track):
         """Called when a limitation notice arrives"""
@@ -81,7 +99,7 @@ class MyStreamListener(tweepy.StreamListener):
 def main():
     """
         Tweepy oAuth handling.
-        Uses keys taken from settings.py
+        Uses settings taken from settings.py
     """
     auth = tweepy.OAuthHandler(settings.consumer_key, settings.consumer_secret)
     auth.set_access_token(settings.access_token, settings.access_token_secret)
