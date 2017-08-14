@@ -2,6 +2,7 @@
 
 import tweepy #tweepy api wrapper
 import settings #settings module
+import re
 
 class MyStreamListener(tweepy.StreamListener):
     def __init__(self, api):
@@ -37,6 +38,14 @@ class MyStreamListener(tweepy.StreamListener):
                 return True
         return False
 
+
+    def find_battle_id(self, tweet):
+        text = tweet.text
+        if (bool(re.search(settings.regex, text))):
+            return True
+        return False
+
+
     """
         @param status: The tweet that the listener found
 
@@ -44,15 +53,21 @@ class MyStreamListener(tweepy.StreamListener):
         if target hashtag is found
     """
     def on_status(self, status):
-        if (status.text.startswith("RT") != True) and (status.text.startswith("@") != True):
-            hashtag_list = self.find_hashtags(status)
+        delete = False
+        tweet = status
+        if (self.find_battle_id(tweet)):
+            delete = True
+        if (tweet.text.startswith("RT") != True) and (tweet.text.startswith("@") != True):
+            hashtag_list = self.find_hashtags(tweet)
             if (self.parse_hashtags(hashtag_list)):
-                print "Deleting GBF related tweet..."
-                self.api.destroy_status(status.id)
+                delete = True
+        if (delete):
+            print "Deleting GBF related tweet..."
+            self.api.destroy_status(tweet.id)
 
     def on_delete(self, status_id, user_id):
         """Called when a delete notice arrives for a status"""
-        print (status.text)
+        pass
 
     def on_limit(self, track):
         """Called when a limitation notice arrives"""
@@ -81,7 +96,7 @@ class MyStreamListener(tweepy.StreamListener):
 def main():
     """
         Tweepy oAuth handling.
-        Uses keys taken from settings.py
+        Uses settings taken from settings.py
     """
     auth = tweepy.OAuthHandler(settings.consumer_key, settings.consumer_secret)
     auth.set_access_token(settings.access_token, settings.access_token_secret)
