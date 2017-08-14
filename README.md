@@ -5,6 +5,8 @@ Just keep it running somewhere and it'll happily listen to your tweets and autom
 
 In reality, this will work for any single hashtag you would like to delete. The target deletion hashtag can be changed in settings.py.
 
+Backup request tweets are currently a work-in-progress.
+
 # How to Use
 Download or clone this repository to your machine.
 
@@ -28,3 +30,6 @@ You will have to create an application that is bound to your twitter account.
 
 You can do so at the [Twitter Apps Page](https://apps.twitter.com).
 After that, the keys will be generated and you can place them in `settings.py`.
+
+# Non-Listener Version
+The non-listener version checks your tweets every two minutes for Granblue Fantasy tagged tweets. It does NOT delete backup raid requests.

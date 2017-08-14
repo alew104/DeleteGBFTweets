@@ -1,4 +1,5 @@
 #This one doesn't use a listener, will check your tweets every two minutes
+#This one also doesn't do battle raid Ids.
 import tweepy
 import settings
 import time
