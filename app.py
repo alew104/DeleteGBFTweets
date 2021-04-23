@@ -92,6 +92,11 @@ class MyStreamListener(tweepy.StreamListener):
     def on_warning(self, notice):
         """Called when a disconnection warning message arrives"""
         print (notice)
+    
+    def on_exception(self, exception):
+        print("lol check out this exception bro")
+        print(exception)
+        return True
 
 def main():
     """
@@ -112,9 +117,9 @@ def main():
         Instantiate listener and filter incoming tweets to
         only select from a particular user
     """
-    myStreamListener = MyStreamListener(api = api)
+    myStreamListener = MyStreamListener(api)
     myStream = tweepy.Stream(auth = api.auth, listener=myStreamListener)
-    myStream.filter(user_list)
+    myStream.filter(follow=user_list)
 
 """
     Some weird python thing to make main work(?).
