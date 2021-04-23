@@ -5,7 +5,9 @@ Just keep it running somewhere and it'll happily listen to your tweets and autom
 
 In reality, this will work for any single hashtag you would like to delete. The target deletion hashtag can be changed in settings.py.
 
-Backup request tweets are currently a work-in-progress.
+Backup requests are currently supported. Other GBF Raid Finder sites still pick up your backup requests.
+
+You'll need to have a public Twitter account for this bot to work.
 
 # How to Use
 Download or clone this repository to your machine.
